@@ -19,13 +19,13 @@ public class ChoixMode {
         Label message = new Label("Choissisez votre mode de jeu");
         message.setFont(new Font(30));
 
-        Button validerButton = new Button("Valider");
+        Button validerButton = new Button("Démarrer");
         validerButton.setDisable(true);
         validerButton.setOnAction(evt -> {
             System.out.println("Valider : " + message.getText());
             if (message.getText().equals("Mode Lettres")) {
                 choixStage.close();
-                Lettres.debut();
+                Lettres.jeuLettres();
             } else if (message.getText().equals("Mode Chiffres")) {
                 choixStage.close();
                 Chiffres.debut();
@@ -43,7 +43,7 @@ public class ChoixMode {
         chiffresButton.setOnAction(evt -> {
             message.setText("Mode Chiffres");
             System.out.println(message.getText());
-            // validerButton.setDisable(false); /TODO
+            validerButton.setDisable(true); // TODO
         });
 
         HBox buttonChoixBar = new HBox(10, chiffresButton, lettresButton);
