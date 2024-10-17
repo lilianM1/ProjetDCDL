@@ -16,7 +16,7 @@ public class Lettres {
 
         // Player 1 stage
         Stage p1Stage = new Stage();
-        VBox p1VBox = new VBox(new Label("Joueur 1"));
+        VBox p1VBox = new VBox(new Label("Player 1"));
         Scene p1Scene = new Scene(p1VBox);
         p1Stage.setTitle("Player 1");
         p1Stage.setScene(p1Scene);
@@ -25,20 +25,5 @@ public class Lettres {
         p1Stage.setWidth(screenBounds.getWidth() / 2); // Set the width to half the screen width
         p1Stage.setHeight(screenBounds.getHeight()); // Set the height to the screen height
         p1Stage.show();
-
-        // // Player 2 stage
-        // Stage secondaryStage = new Stage();
-        // VBox layout2 = new VBox(new Label("Player 2"));
-        // Scene scene2 = new Scene(layout2);
-        // secondaryStage.setTitle("Player 2");
-        // secondaryStage.setScene(scene2);
-        // secondaryStage.setX(screenBounds.getWidth() / 2); // Set the X position to
-        // half the screen width
-        // secondaryStage.setY(0); // Set the Y position
-        // secondaryStage.setWidth(screenBounds.getWidth() / 2); // Set the width to
-        // half the screen width
-        // secondaryStage.setHeight(screenBounds.getHeight()); // Set the height to the
-        // screen height
-        // secondaryStage.show();
     }
 }

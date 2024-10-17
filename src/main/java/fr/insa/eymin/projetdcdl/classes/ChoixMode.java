@@ -43,7 +43,7 @@ public class ChoixMode {
         chiffresButton.setOnAction(evt -> {
             message.setText("Mode Chiffres");
             System.out.println(message.getText());
-            validerButton.setDisable(false);
+            // validerButton.setDisable(false); /TODO
         });
 
         HBox buttonChoixBar = new HBox(10, chiffresButton, lettresButton);
