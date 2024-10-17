@@ -16,7 +16,7 @@ public class Lettres {
 
         // Player 1 stage
         Stage p1Stage = new Stage();
-        VBox p1VBox = new VBox(new Label("Player 1"));
+        VBox p1VBox = new VBox(new Label("Joueur 1"));
         Scene p1Scene = new Scene(p1VBox);
         p1Stage.setTitle("Player 1");
         p1Stage.setScene(p1Scene);
