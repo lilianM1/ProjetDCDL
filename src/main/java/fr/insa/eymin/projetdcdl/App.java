@@ -1,7 +1,7 @@
 /*
- * Projet Informatique S2, Devis Bâtiment
- * Auteurs : Lilian Eymin, Simon Fontaine
- * INSA Strasbourg, 2024
+ * INSA Strasbourg, Septembre 2024
+ * Projet Informatique S1, Des Chiffres et des Lettres
+ * Auteur : Lilian Eymin
  */
 
 package fr.insa.eymin.projetdcdl;
