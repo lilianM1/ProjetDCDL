@@ -5,6 +5,8 @@ import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.*;
 
 public class Lettres {
@@ -55,10 +57,11 @@ public class Lettres {
     // Méthode qui donne le choix du nombre de voyelles au joueur
     public static void choixNbVoyelles() {
         Label message = new Label("Choissisez le nombre de voyelles :");
+        message.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         TextField nbVoyelles = new TextField();
         nbVoyelles.setPrefColumnCount(2);
 
-        HBox entreeNb = new HBox(10, message, nbVoyelles);
+        HBox entreeNb = new HBox(message, nbVoyelles);
         entreeNb.setPadding(new Insets(10));
 
         Button validerButton = new Button("Valider");
@@ -74,9 +77,11 @@ public class Lettres {
         choixVoyellesPane.setCenter(entreeNb);
         choixVoyellesPane.setBottom(validerBox);
 
+        Scene choixVoyellesScene = new Scene(choixVoyellesPane);
+        choixVoyellesScene.getStylesheets().add(ChoixMode.class.getResource("styles.css").toExternalForm());
         Stage choixVoyellesStage = new Stage();
         choixVoyellesStage.setTitle("Choix du nombre de voyelles");
-        choixVoyellesStage.setScene(new Scene(choixVoyellesPane));
+        choixVoyellesStage.setScene(choixVoyellesScene);
         choixVoyellesStage.showAndWait();
     }
 }

@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.*;
 
 public class ChoixMode {
@@ -17,6 +18,7 @@ public class ChoixMode {
         Stage choixStage = new Stage();
 
         Label message = new Label("Choissisez votre mode de jeu");
+        message.setStyle("-fx-font-weight: bold;");
         message.setFont(new Font(30));
 
         Button validerButton = new Button("Démarrer");
@@ -59,6 +61,7 @@ public class ChoixMode {
         choixPane.setBottom(buttonBar);
 
         Scene choixScene = new Scene(choixPane, 450, 200);
+        choixScene.getStylesheets().add(ChoixMode.class.getResource("styles.css").toExternalForm());
         choixStage.setScene(choixScene);
         choixStage.setTitle("Choix du mode de jeu");
         choixStage.show();
