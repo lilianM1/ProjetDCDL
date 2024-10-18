@@ -51,5 +51,4 @@ Label {
     -fx-background-color: transparent;
     -fx-font-weight: bold;
     -fx-text-fill: #132343;
-    /* -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 4, 0, 0, 1); */
 }
