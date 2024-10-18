@@ -60,7 +60,7 @@ public class ChoixMode {
         choixPane.setBottom(buttonBar);
 
         Scene choixScene = new Scene(choixPane, 450, 200);
-        choixScene.getStylesheets().add(ChoixMode.class.getResource("styles.css").toExternalForm());
+        choixScene.getStylesheets().add(ChoixMode.class.getResource("/fr/insa/eymin/projetdcdl/classes/styles.css").toExternalForm());
         choixStage.setScene(choixScene);
         choixStage.setTitle("Choix du mode de jeu");
         choixStage.show();

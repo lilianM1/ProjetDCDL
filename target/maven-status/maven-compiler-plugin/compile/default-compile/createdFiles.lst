@@ -1,3 +1,6 @@
-module-info.class
-fr\insa\eymin\projetdcdl\SystemInfo.class
+fr\insa\eymin\projetdcdl\classes\Lettres.class
+fr\insa\eymin\projetdcdl\classes\Lire.class
 fr\insa\eymin\projetdcdl\App.class
+fr\insa\eymin\projetdcdl\classes\ChoixMode.class
+fr\insa\eymin\projetdcdl\classes\Chiffres.class
+module-info.class
