@@ -75,20 +75,19 @@ public class Lettres {
 
         // ----------------------------------------------------------------------------------------------------------
         // Affichage des 10 lettres
-        p1GridPane.add(new Label("Les 10 lettres :"), 0, 0);
         String lettresString = "";
         for (char i : lettres) {
             lettresString += i + "  ";
         }
         Label lettresLabel = new Label(lettresString);
         lettresLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-        p1GridPane.add(lettresLabel, 0, 1);
+        p1GridPane.add(lettresLabel, 0, 0);
 
         // ----------------------------------------------------------------------------------------------------------
         // Affichage de la zone de saisie
         TextField saisie1 = new TextField();
         saisie1.setPromptText("Saisir un mot");
-        p1GridPane.add(saisie1, 0, 2);
+        p1GridPane.add(saisie1, 0, 1);
 
         // ----------------------------------------------------------------------------------------------------------
         // Test de la validité du mot saisi
@@ -96,11 +95,13 @@ public class Lettres {
             verification(saisie1, lettres);
         });
         Button validerButton1 = new Button("Valider");
+        p1GridPane.add(validerButton1, 0, 2);
         validerButton1.setOnAction(e -> {
             verification(saisie1, lettres);
         });
-        p1GridPane.add(validerButton1, 0, 3);
 
+        // ----------------------------------------------------------------------------------------------------------
+        // Mise en place de la scène
         Scene p1Scene = new Scene(p1GridPane);
         p1Stage.setScene(p1Scene);
         p1Scene.getStylesheets().add(ChoixMode.class.getResource("styles.css").toExternalForm());
@@ -123,20 +124,19 @@ public class Lettres {
 
         // ----------------------------------------------------------------------------------------------------------
         // Affichage des 10 lettres
-        p2GridPane.add(new Label("Les 10 lettres :"), 0, 0);
         String lettresString = "";
         for (char i : lettres) {
             lettresString += i + "  ";
         }
         Label lettresLabel2 = new Label(lettresString);
         lettresLabel2.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-        p2GridPane.add(lettresLabel2, 0, 1);
+        p2GridPane.add(lettresLabel2, 0, 0);
 
         // ----------------------------------------------------------------------------------------------------------
         // Affichage de la zone de saisie
         TextField saisie2 = new TextField();
         saisie2.setPromptText("Saisir un mot");
-        p2GridPane.add(saisie2, 0, 2);
+        p2GridPane.add(saisie2, 0, 1);
 
         // ----------------------------------------------------------------------------------------------------------
         // Test de la validité du mot saisi
@@ -147,7 +147,10 @@ public class Lettres {
         validerButton2.setOnAction(e -> {
             verification(saisie2, lettres);
         });
-        p2GridPane.add(validerButton2, 0, 3);
+
+        // ----------------------------------------------------------------------------------------------------------
+        // Mise en place de la scène
+        p2GridPane.add(validerButton2, 0, 2);
         Scene p2Scene = new Scene(p2GridPane);
         p2Stage.setScene(p2Scene);
         p2Scene.getStylesheets().add(ChoixMode.class.getResource("styles.css").toExternalForm());
@@ -160,7 +163,7 @@ public class Lettres {
 
     // ==============================================================================================================
     // Méthode qui vérifie si le mot saisi est valide
-    public static void verification(TextField saisie, ArrayList<Character> lettres) {
+    public static boolean verification(TextField saisie, ArrayList<Character> lettres) {
         File dictionnaire = new File("src\\main\\ressources\\dictionnaire.txt");
 
         String mot = saisie.getText();
@@ -169,21 +172,23 @@ public class Lettres {
         // ----------------------------------------------------------------------------------------------------------
         // Verifier si le mot saisi peut etre formé avec les lettres
         ArrayList<Character> lettresTemp = new ArrayList<Character>(lettres);
+        boolean valide = true;
         for (char c : mot.toCharArray()) {
             c = Character.toUpperCase(c);
             if (lettresTemp.contains(c)) {
                 lettresTemp.remove((Character) c);
             } else {
                 erreurMot("Le mot ne peut pas être formé avec les lettres", saisie);
-                return;
+                valide = false;
+                return false;
             }
         }
 
         // ----------------------------------------------------------------------------------------------------------
         // Vérifier si le mot saisi est dans le dictionnaire
+        boolean found = false;
         try {
             Scanner scanner = new Scanner(dictionnaire);
-            boolean found = false;
             while (scanner.hasNextLine()) {
                 String ligne = scanner.nextLine();
                 if (ligne.equalsIgnoreCase(mot)) {
@@ -191,17 +196,30 @@ public class Lettres {
                     found = true;
                     break;
                 }
-
             }
             if (!found) {
                 erreurMot("Le mot n'est pas dans le dictionnaire", saisie);
                 scanner.close();
-                return;
+                return false;
             }
             scanner.close();
         } catch (FileNotFoundException ex) {
             System.err.println("File not found: " + ex.getMessage());
         }
+
+        if (valide && found) {
+            saisie.clear();
+            System.out.println("Mot valide");
+            affichageMotsValides();
+            return true;
+        }
+        return false;
+    }
+
+    // ==============================================================================================================
+    // Méthode qui affiche les mots valides et compte les points
+    public static void affichageMotsValides() {
+
     }
 
     // ==============================================================================================================
