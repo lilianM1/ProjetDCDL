@@ -16,7 +16,7 @@ public class App extends Application {
     // Méthode appelée au démarrage de l'application
     @Override
     public void start(Stage stage) {
-        // Appelle la méthode début de la classe Gui
+        // Appelle la méthode début de la classe choix
         ChoixMode.debut();
     }
 

@@ -44,7 +44,7 @@ public class ChoixMode {
         chiffresButton.setOnAction(evt -> {
             message.setText("Mode Chiffres");
             System.out.println(message.getText());
-            validerButton.setDisable(true); // TODO
+            validerButton.setDisable(true); // TODO: set to false
         });
 
         HBox buttonChoixBar = new HBox(10, chiffresButton, lettresButton);
@@ -60,7 +60,8 @@ public class ChoixMode {
         choixPane.setBottom(buttonBar);
 
         Scene choixScene = new Scene(choixPane, 450, 200);
-        choixScene.getStylesheets().add(ChoixMode.class.getResource("/fr/insa/eymin/projetdcdl/classes/styles.css").toExternalForm());
+        choixScene.getStylesheets()
+                .add(ChoixMode.class.getResource("/fr/insa/eymin/projetdcdl/classes/styles.css").toExternalForm());
         choixStage.setScene(choixScene);
         choixStage.setTitle("Choix du mode de jeu");
         choixStage.show();
