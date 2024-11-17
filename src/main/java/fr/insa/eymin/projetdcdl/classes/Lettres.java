@@ -1,9 +1,11 @@
 package fr.insa.eymin.projetdcdl.classes;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
-
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -47,11 +49,25 @@ public class Lettres {
         System.out.println("Lettres : " + lettres);
 
         // ----------------------------------------------------------------------------------------------------------
-        // Obtenir les dimensions de l'écran
+        // Génération des fenêtres de jeu
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 
-        // Player 1 stage
+        // Joueur 1 stage
+        Stage p1Stage = fenetreP1(lettres, screenBounds);
+
+        // Joueur 2 stage
+        Stage p2Stage = fenetreP2(lettres, screenBounds);
+
+        // Affichage de la zone de jeu
+        p1Stage.show();
+        p2Stage.show();
+    }
+
+    // ==============================================================================================================
+    // Fenêtre joueur 1
+    public static Stage fenetreP1(ArrayList<Character> lettres, Rectangle2D screenBounds) {
         Stage p1Stage = new Stage();
+        p1Stage.setTitle("Joueur 1");
         GridPane p1GridPane = new GridPane();
         p1GridPane.setHgap(10);
         p1GridPane.setVgap(10);
@@ -70,24 +86,122 @@ public class Lettres {
 
         // ----------------------------------------------------------------------------------------------------------
         // Affichage de la zone de saisie
-        TextField saisie = new TextField();
-        saisie.setPromptText("Saisir un mot");
-        p1GridPane.add(saisie, 0, 2);
-
-        Button validerButton = new Button("Valider");
-        p1GridPane.add(validerButton, 0, 3);
+        TextField saisie1 = new TextField();
+        saisie1.setPromptText("Saisir un mot");
+        p1GridPane.add(saisie1, 0, 2);
 
         // ----------------------------------------------------------------------------------------------------------
-        // Affichage de la zone de jeu
+        // Test de la validité du mot saisi
+        saisie1.setOnAction(e -> {
+            verification(saisie1, lettres);
+        });
+        Button validerButton1 = new Button("Valider");
+        validerButton1.setOnAction(e -> {
+            verification(saisie1, lettres);
+        });
+        p1GridPane.add(validerButton1, 0, 3);
+
         Scene p1Scene = new Scene(p1GridPane);
-        p1Stage.setTitle("Joueur 1");
         p1Stage.setScene(p1Scene);
         p1Scene.getStylesheets().add(ChoixMode.class.getResource("styles.css").toExternalForm());
         p1Stage.setX(0); // Définir la position X
         p1Stage.setY(0); // Définir la position Y
         p1Stage.setWidth(screenBounds.getWidth() / 2); // Définir la largeur à la moitié de la largeur de l'écran
         p1Stage.setHeight(screenBounds.getHeight()); // Définir la hauteur à la hauteur de l'écran
-        p1Stage.show();
+        return p1Stage;
+    }
+
+    // ==============================================================================================================
+    // Fenêtre joueur 2
+    public static Stage fenetreP2(ArrayList<Character> lettres, Rectangle2D screenBounds) {
+        Stage p2Stage = new Stage();
+        p2Stage.setTitle("Joueur 2");
+        GridPane p2GridPane = new GridPane();
+        p2GridPane.setHgap(10);
+        p2GridPane.setVgap(10);
+        p2GridPane.setPadding(new Insets(10));
+
+        // ----------------------------------------------------------------------------------------------------------
+        // Affichage des 10 lettres
+        p2GridPane.add(new Label("Les 10 lettres :"), 0, 0);
+        String lettresString = "";
+        for (char i : lettres) {
+            lettresString += i + "  ";
+        }
+        Label lettresLabel2 = new Label(lettresString);
+        lettresLabel2.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        p2GridPane.add(lettresLabel2, 0, 1);
+
+        // ----------------------------------------------------------------------------------------------------------
+        // Affichage de la zone de saisie
+        TextField saisie2 = new TextField();
+        saisie2.setPromptText("Saisir un mot");
+        p2GridPane.add(saisie2, 0, 2);
+
+        // ----------------------------------------------------------------------------------------------------------
+        // Test de la validité du mot saisi
+        saisie2.setOnAction(e -> {
+            verification(saisie2, lettres);
+        });
+        Button validerButton2 = new Button("Valider");
+        validerButton2.setOnAction(e -> {
+            verification(saisie2, lettres);
+        });
+        p2GridPane.add(validerButton2, 0, 3);
+        Scene p2Scene = new Scene(p2GridPane);
+        p2Stage.setScene(p2Scene);
+        p2Scene.getStylesheets().add(ChoixMode.class.getResource("styles.css").toExternalForm());
+        p2Stage.setX(screenBounds.getWidth() / 2); // Définir la position X à la moitié de la largeur de l'écran
+        p2Stage.setY(0); // Définir la position Y
+        p2Stage.setWidth(screenBounds.getWidth() / 2); // Définir la largeur à la moitié de la largeur de l'écran
+        p2Stage.setHeight(screenBounds.getHeight()); // Définir la hauteur à la hauteur de l'écran
+        return p2Stage;
+    }
+
+    // ==============================================================================================================
+    // Méthode qui vérifie si le mot saisi est valide
+    public static void verification(TextField saisie, ArrayList<Character> lettres) {
+        File dictionnaire = new File("src\\main\\ressources\\dictionnaire.txt");
+
+        String mot = saisie.getText();
+        System.out.println("Mot saisi : " + mot);
+
+        // ----------------------------------------------------------------------------------------------------------
+        // Verifier si le mot saisi peut etre formé avec les lettres
+        ArrayList<Character> lettresTemp = new ArrayList<Character>(lettres);
+        for (char c : mot.toCharArray()) {
+            c = Character.toUpperCase(c);
+            if (lettresTemp.contains(c)) {
+                lettresTemp.remove((Character) c);
+            } else {
+                erreurMot("Le mot ne peut pas être formé avec les lettres", saisie);
+                return;
+            }
+        }
+
+        // ----------------------------------------------------------------------------------------------------------
+        // Vérifier si le mot saisi est dans le dictionnaire
+        try {
+            Scanner scanner = new Scanner(dictionnaire);
+            boolean found = false;
+            while (scanner.hasNextLine()) {
+                String ligne = scanner.nextLine();
+                if (ligne.equalsIgnoreCase(mot)) {
+                    System.out.println(ligne + " : trouvé dans le dictionnaire");
+                    found = true;
+                    break;
+                }
+
+            }
+            if (!found) {
+                erreurMot("Le mot n'est pas dans le dictionnaire", saisie);
+                scanner.close();
+                return;
+            }
+            scanner.close();
+        } catch (FileNotFoundException ex) {
+            System.err.println("File not found: " + ex.getMessage());
+        }
     }
 
     // ==============================================================================================================
@@ -157,6 +271,24 @@ public class Lettres {
         choixVoyellesStage.setScene(choixVoyellesScene);
         choixVoyellesStage.showAndWait();
         return future.join();
+    }
+
+    // ==============================================================================================================
+    public static void erreurMot(String erreur, TextField saisie) {
+        System.out.println(erreur);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(erreur);
+
+        ButtonType buttonTypeOk = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        alert.getButtonTypes().setAll(buttonTypeOk);
+
+        Label content = (Label) alert.getDialogPane().lookup(".content");
+        content.setFont(new Font(15));
+
+        alert.showAndWait();
+        saisie.clear();
     }
 
     // ==============================================================================================================
